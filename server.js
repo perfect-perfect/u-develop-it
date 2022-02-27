@@ -80,6 +80,7 @@ app.delete('/api/candidate/:id', (req, res) => {
             res.status(400).json({ error: res.message });
         }
         // If there are no affectedRows as a result of the delete query, that means that there was no candidate by that id. Therefore, we should return an appropriate message to the client, such as "Candidate not found".
+        // this prevents it for saying you deleted something, when you didn't. For example, if you tried to delete an id that din't exist, it wouldn't come up as an error
         else if (!result.affectedRows) {
             res.json({
                 message: 'Candidate not found'
