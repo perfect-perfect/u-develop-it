@@ -1,5 +1,6 @@
 -- 
 -- basically anytime we want to create a table we create a matching DROP TABLE
+DROP TABLE IF EXISTS votes;
 DROP TABLE IF EXISTS candidates;
 DROP TABLE IF EXISTS parties;
 DROP TABLE IF EXISTS voters;
@@ -36,4 +37,15 @@ CREATE TABLE voters (
     -- with DEFAULT, you can specify what the vallue should be if no value is provided
     -- We are specifying CURRENT_TIMESTAMP as the value for DEFAULT
     created_at DATETIME DEFAULT CURRENT_TIMESTAMP
+);
+
+-- create votes table
+CREATE TABLE votes (
+    id INTEGER AUTO_INCREMENT PRIMARY KEY,
+    voter_id INTEGER NOT NULL,
+    candidate_id INTEGER NOT NULL,
+    created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+    CONSTRAINT uc_voter UNIQUE (voter_id),
+    CONSTRAINT fk_voter FOREIGN KEY (voter_id) REFERENCES voters(id) ON DELETE CASCADE,
+    CONSTRAINT fk_candidate FOREIGN KEY (candidate_id) REFERENCES candidates(id) ON DELETE CASCADE
 );
